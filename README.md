@@ -1,4 +1,5 @@
-# wp-es6-bolierplate
+# Primitives
+draw circles, lines 4 fun
 ```
 npm i
 npm run dev
