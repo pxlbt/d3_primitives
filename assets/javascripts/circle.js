@@ -43,11 +43,10 @@ demoPrimitives
   .addConnection(['Line', lineGroup])
 
 ///Logic///
-let DrawCircleAnimate = (circle, points, config, delay) => {
+let DrawCircleAnimate = (circle, points, config, delay, callback = () => {}) => {
 
-  let onEnd = null
-  return function DrawNextStep (count, callback )  {
-    onEnd = onEnd? callback ? callback : (() => {console.log(onEnd)})
+  let onEnd = callback
+  return function DrawNextStep (count)  {
     if (count == 0) {
       onEnd()
       return
@@ -65,11 +64,10 @@ let DrawCircleAnimate = (circle, points, config, delay) => {
 }
 
 let DrawCircleAnimateWithPromise = (circle, points, config, delay) => {
-  let asyncF = DrawCircleAnimate(circle, points, config, delay)
 
   return (startCount) => {
     return new Promise((resolve, reject) => {
-      asyncF( startCount, () => resolve("done") )
+      DrawCircleAnimate(circle, points, config, delay, () => resolve("done"))(startCount)
     })
   }
 }
@@ -99,7 +97,7 @@ let CircleRadiusControls = (circle, points, config) => {
 
 export default {
   run: () => {
-    DrawCircleAnimateWithPromise(demoPrimitives, points, config, 1)(a360).then(console.log)
+    DrawCircleAnimateWithPromise(demoPrimitives, points, config, 1)(a360).then((r) => console.log(r), (e) => console.log(e))
     let apiControls = CircleRadiusControls(demoPrimitives, points, config)
 
     helper.DOM.attachAction(apiControls.drawStepForward, '.btn')
