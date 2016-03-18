@@ -63,4 +63,4 @@ class Primitives {
   }
 }
 
-export {Primitives}
+export {drawPrimitive, Primitives}

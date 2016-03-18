@@ -25,10 +25,12 @@ let helper = {
       let params = group.slice( 1, group.length + (isModif?-1:0) )
       return [ group[0], isModif ? paramsMod(params):params ]
     })
-  },
-  stepByStep: (f, btnNext) => {
-    document.querySelector(btnNext).onclick = () => f()
   }
+}
+
+helper.DOM = {}
+helper.DOM.attachAction = (f, btnNext) => {
+  document.querySelector(btnNext).onclick = () => f()
 }
 
 // helper.paramsToArray = Decorators.log(helper.paramsToArray)
@@ -55,12 +57,14 @@ let getCirclePoints = (x0,y0,R) => {
     setDelta: (d) => {
       delta = d
     },
-    getNextCoords: () => {
+    setNextCoords: () => {
       angleCount += delta
-      console.log (`angle is ${angleCount}`)
       coord.setAngle(angleCount)
+    },
+    getNextCoords: () => {
       return coord.getXY(x0,y0)
-    }
+    },
+    getAngel: () => angleCount
   }
 }
 
