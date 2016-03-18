@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var ListenPort = process.env.$PORT || 3333
+var ListenPort = process.env.PORT || 3333
 
 app.set('views', './public');
 app.use(express.static('public'));
