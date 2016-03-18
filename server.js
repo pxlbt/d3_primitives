@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var ListenPort = process.env.$PORT || 3333
 
 app.set('views', './public');
 app.use(express.static('public'));
@@ -9,6 +10,6 @@ app.use(function(req, res){
   res.sendfile('./public/index.html');
 });
 
-app.listen(3333, function () {
-  console.log('Server started on port 3333!');
+app.listen(ListenPort, function () {
+  console.log('Server started on port ' + ListenPort);
 });

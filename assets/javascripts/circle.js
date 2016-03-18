@@ -1,5 +1,5 @@
 import d3 from "d3"
-import {helper, getCircleXY, getCirclePoints} from "./helper"
+import {helper, getCircleXY, genericCirclePoints} from "./helper"
 import svgFabric from "./svg"
 import { drawPrimitive, Primitives } from './Draw'
 
@@ -30,7 +30,7 @@ let points = (
       setDirection: (d) => xyCoords.setDelta(d)
     }
   }
-)(getCirclePoints(config.centralPoints.x, config.centralPoints.y, config.r))
+)(genericCirclePoints(config.centralPoints.x, config.centralPoints.y, config.r))
 
 let svg = svgFabric(config.w, config.h)
 let circleDotsGroup = svg.append('g') //dots of circle group
@@ -45,8 +45,13 @@ demoPrimitives
 ///Logic///
 let DrawCircleAnimate = (circle, points, config, delay) => {
 
-  return function DrawNextStep (count)  {
-    if (count == 0) return;
+  let onEnd = null
+  return function DrawNextStep (count, callback )  {
+    onEnd = onEnd? callback ? callback : (() => {console.log(onEnd)})
+    if (count == 0) {
+      onEnd()
+      return
+    };
     let c = points.getNextData()
     setTimeout(() => {
       // <Primitive, params1,...,paramsN, mod? >
@@ -56,6 +61,16 @@ let DrawCircleAnimate = (circle, points, config, delay) => {
       )
       DrawNextStep(count-1)
     }, delay)
+  }
+}
+
+let DrawCircleAnimateWithPromise = (circle, points, config, delay) => {
+  let asyncF = DrawCircleAnimate(circle, points, config, delay)
+
+  return (startCount) => {
+    return new Promise((resolve, reject) => {
+      asyncF( startCount, () => resolve("done") )
+    })
   }
 }
 
@@ -84,7 +99,7 @@ let CircleRadiusControls = (circle, points, config) => {
 
 export default {
   run: () => {
-    DrawCircleAnimate(demoPrimitives, points, config, 1)(a360)
+    DrawCircleAnimateWithPromise(demoPrimitives, points, config, 1)(a360).then(console.log)
     let apiControls = CircleRadiusControls(demoPrimitives, points, config)
 
     helper.DOM.attachAction(apiControls.drawStepForward, '.btn')

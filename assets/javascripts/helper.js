@@ -49,7 +49,7 @@ let getCircleXY = (R) => {
   }
 }
 
-let getCirclePoints = (x0,y0,R) => {
+let genericCirclePoints = (x0,y0,R) => {
   let coord = getCircleXY(R)
   let angleCount = 0
   let delta = 1
@@ -68,4 +68,4 @@ let getCirclePoints = (x0,y0,R) => {
   }
 }
 
-export  {helper, getCircleXY, getCirclePoints}
+export  {helper, getCircleXY, genericCirclePoints}
