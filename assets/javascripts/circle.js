@@ -82,8 +82,12 @@ let CircleRadiusControls = (circle, points, config) => {
   return api
 }
 
-DrawCircleAnimate(demoPrimitives, points, config, 1)(a360)
-let apiControls = CircleRadiusControls(demoPrimitives, points, config)
+export default {
+  run: () => {
+    DrawCircleAnimate(demoPrimitives, points, config, 1)(a360)
+    let apiControls = CircleRadiusControls(demoPrimitives, points, config)
 
-helper.DOM.attachAction(apiControls.drawStepForward, '.btn')
-helper.DOM.attachAction(apiControls.drawStepBack, '.prevbtn')
+    helper.DOM.attachAction(apiControls.drawStepForward, '.btn')
+    helper.DOM.attachAction(apiControls.drawStepBack, '.prevbtn')
+  }
+}

@@ -1,1 +1,3 @@
-import "./circle"
+import AnimateCircleWithControls from "./circle"
+
+AnimateCircleWithControls.run()

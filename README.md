@@ -1,7 +1,8 @@
-# wp-es6-bolierplate
+# Primitives
+draw circles, lines 4 fun
 ```
 npm i
-npm run dev
+nodemon || node server.js
 ```
 
 [http://localhost:3333/](http://localhost:3333/)
